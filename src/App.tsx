@@ -13,7 +13,7 @@ interface Image {
   regularImg: string;
 }
 
-function App() {
+const App: React.FC = () => {
   const [query, setQuery] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [images, setImages] = useState<Image[]>([]);
@@ -23,11 +23,11 @@ function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [totalPage, setTotalPage] = useState<boolean>(false);
 
-  function handleSearch(query: string) {
+  const handleSearch = (query: string) => {
     setQuery(query);
     setPage(1);
     setImages([]);
-  }
+  };
 
   useEffect(() => {
     if (query.trim() === "") {
@@ -38,7 +38,7 @@ function App() {
         setIsError(false);
         setIsLoading(true);
         const data = await apiFoo(query, page);
-        const imageData = data.results.map((image: any) => ({
+        const imageData = data.results.map((image) => ({
           smallImg: image.urls.small,
           regularImg: image.urls.regular,
         }));
