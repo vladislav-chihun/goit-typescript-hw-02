@@ -3,7 +3,13 @@ import css from "./ImageModal.module.css";
 
 Modal.setAppElement('#root');
 
-export default function ImageModal({ isOpen, onRequestClose, largeImg }) {
+interface ImageModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  largeImg: string | null;
+}
+
+export default function ImageModal({ isOpen, onRequestClose, largeImg }: ImageModalProps) {
   return (
     <Modal
       isOpen={isOpen}
@@ -13,8 +19,8 @@ export default function ImageModal({ isOpen, onRequestClose, largeImg }) {
       shouldCloseOnOverlayClick={true}
       shouldCloseOnEsc={true}
     >
-      <div >
-        <img src={largeImg} className={css.largeImg} />
+      <div>
+        <img src={largeImg ?? ""} className={css.largeImg} />
       </div>
     </Modal>
   );

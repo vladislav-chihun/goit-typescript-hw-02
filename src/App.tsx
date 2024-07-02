@@ -8,17 +8,22 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
-function App() {
-  const [query, setQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [images, setImages] = useState([]);
-  const [isError, setIsError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [totalPage, setTotalPage] = useState(false);
+interface Image {
+  smallImg: string;
+  regularImg: string;
+}
 
-  function handleSearch(query) {
+function App() {
+  const [query, setQuery] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [images, setImages] = useState<Image[]>([]);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [totalPage, setTotalPage] = useState<boolean>(false);
+
+  function handleSearch(query: string) {
     setQuery(query);
     setPage(1);
     setImages([]);
@@ -33,12 +38,12 @@ function App() {
         setIsError(false);
         setIsLoading(true);
         const data = await apiFoo(query, page);
-        const imageData = data.results.map((image) => ({
+        const imageData = data.results.map((image: any) => ({
           smallImg: image.urls.small,
           regularImg: image.urls.regular,
         }));
         setImages((prevData) => [...prevData, ...imageData]);
-        setTotalPage( data.total_pages !== page)
+        setTotalPage(data.total_pages !== page);
       } catch (error) {
         setIsError(true);
       } finally {
@@ -52,7 +57,7 @@ function App() {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const handleImageClick = (largeImg) => {
+  const handleImageClick = (largeImg: string) => {
     setSelectedImage(largeImg);
     setIsModalOpen(true);
   };
@@ -69,7 +74,7 @@ function App() {
       {isLoading && <Loader />}
       {images.length === 0 && query !== "" && !isError && !isLoading && <p className={appCss.noImgFound}>No Images Found</p>}
       {images.length > 0 && <ImageGallery images={images} onImageClick={handleImageClick} />}
-      { images.length > 0 && totalPage && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
+      {images.length > 0 && totalPage && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
       <ImageModal isOpen={isModalOpen} onRequestClose={handleCloseModal} largeImg={selectedImage} />
     </div>
   );

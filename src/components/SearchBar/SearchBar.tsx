@@ -1,10 +1,15 @@
 import toast, { Toaster } from "react-hot-toast";
-import css from "./SearchBar.module.css"
+import css from "./SearchBar.module.css";
+import { FormEvent } from "react";
 
-export default function SearchBar({ onSubmit }) {
-  const handleSubmit = (event) => {
+interface SearchBarProps {
+  onSubmit: (query: string) => void;
+}
+
+export default function SearchBar({ onSubmit }: SearchBarProps) {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const inputValue = event.target.query.value.trim();
+    const inputValue = event.currentTarget.query.value.trim();
     if (!inputValue) {
       toast.error("Field is empty", {
          position: 'top-right',
@@ -12,7 +17,7 @@ export default function SearchBar({ onSubmit }) {
       return;
     }
     onSubmit(inputValue);
-    event.target.query.value = ""; 
+    event.currentTarget.query.value = ""; 
   };
 
   return (
