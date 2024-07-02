@@ -1,4 +1,4 @@
-import css from "./ImageCard.module.css"
+import css from "./ImageCard"
 export default function ImageCard({ smallImg }) {
   return (
     <div >
