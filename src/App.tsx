@@ -1,5 +1,5 @@
 import appCss from "./App.module.css";
-import { apiFoo } from "./api";
+import { apiFoo, Image as ApiImage } from "./api";
 import SearchBar from "./components/SearchBar/SearchBar";
 import { useState, useEffect } from "react";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
@@ -38,7 +38,7 @@ const App: React.FC = () => {
         setIsError(false);
         setIsLoading(true);
         const data = await apiFoo(query, page);
-        const imageData = data.results.map((image) => ({
+        const imageData = data.results.map((image: ApiImage) => ({
           smallImg: image.urls.small,
           regularImg: image.urls.regular,
         }));
